@@ -30,7 +30,7 @@ jobs:
     steps: 
       - uses: actions/checkout@v2
       - name: job one
-        run: exit 1
+        run: exit 0
 
   job_two:
     runs-on: ubuntu-20.04
@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: job two
-        run: exit 1
+        run: exit 0
           #con
   job_three:
     runs-on: ubuntu-20.04
