@@ -1,0 +1,48 @@
+name: Run Auto Build
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    types: [opened, synchronize, reopen]
+    branches:
+      - master
+
+jobs:
+
+  date:
+    runs-on: ubuntu-20.04
+    outputs:
+      current_date: ${{ steps.get_date.outputs.now }}
+    steps:
+      - id: get_date
+        run: echo "now"
+
+  job_one:
+    runs-on: ubuntu-20.04
+    needs: date
+    steps: 
+      - uses: actions/checkout@v2
+      - name: job one
+        run: exit 1
+
+  job_two:
+    runs-on: ubuntu-20.04
+    needs: date
+    steps:
+      - uses: actions/checkout@v2
+      - name: job two
+        run: exit 1
+
+  job_three:
+    runs-on: ubuntu-20.04
+    needs: [job_one, job_two]
+    steps:
+      - name: job three
+        run: exit 0 
+
+    
+
+
