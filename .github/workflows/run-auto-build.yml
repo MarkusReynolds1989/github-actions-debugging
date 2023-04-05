@@ -43,9 +43,8 @@ jobs:
   job_three:
     runs-on: ubuntu-20.04
     needs: [job_one, job_two]
-    if: always()
     steps:
       - name: job three
         if: |
-          ${{ always() }} && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+          always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
         run: exit 1
