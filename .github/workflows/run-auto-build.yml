@@ -1,5 +1,9 @@
 name: Run Auto Build
 
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -39,10 +43,7 @@ jobs:
   job_three:
     runs-on: ubuntu-20.04
     needs: [job_one, job_two]
+    if: always()
     steps:
       - name: job three
-        run: exit 0 
-
-    
-
-
+        run: exit 0
