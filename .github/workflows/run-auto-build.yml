@@ -43,13 +43,20 @@ jobs:
   job_three:
     runs-on: ubuntu-20.04
     needs: [job_one, job_two]
+    if: always()
     steps:
-      - name: job three success check
-        if: |
-          always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
-        run: exit 0
+      - name: job three failure check
+        run: | 
+          if [[ needs.job_one.result == 'failure' || needs.job_two.result == 'failure' ]]; then
+            echo "job one or two failed"
+            exit 1
+          else 
+            echo $job_one_result
+            echo $job_two_result
+            echo "no issues"
+            exit 0
+          fi
 
-      - name: job three failure check 
-        if: | 
-          always() && contains(needs.*.result, 'failure') && contains(needs.*.result, 'failure')
-        run: exit 1
+        
+
+      
