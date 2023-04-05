@@ -1,14 +1,18 @@
 name: Run Auto Build
 
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
-      - master
+      - main
 
   pull_request:
     types: [opened, synchronize, reopen]
     branches:
-      - master
+      - main
 
 jobs:
 
@@ -24,7 +28,7 @@ jobs:
     runs-on: ubuntu-20.04
     needs: date
     steps: 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: job one
         run: exit 1
 
@@ -32,17 +36,27 @@ jobs:
     runs-on: ubuntu-20.04
     needs: date
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: job two
-        run: exit 1
-
+        run: exit 0
+          #con
   job_three:
     runs-on: ubuntu-20.04
     needs: [job_one, job_two]
+    if: always()
     steps:
-      - name: job three
-        run: exit 0 
+      - name: job three failure check
+        run: | 
+          if [[ needs.job_one.result == 'failure' || needs.job_two.result == 'failure' ]]; then
+            echo "job one or two failed"
+            exit 1
+          else 
+            echo $job_one_result
+            echo $job_two_result
+            echo "no issues"
+            exit 0
+          fi
 
-    
+        
 
-
+      
