@@ -37,7 +37,7 @@ jobs:
     steps:
       - run:
           name: "job two"
-          command: "exit 0"
+          command: "exit 1"
 
   job_three: 
     docker:
@@ -57,8 +57,5 @@ workflows:
       - job_two:
           requires: 
             - date
-      - job_three:
-          requires:
-            - job_one
-            - job_two
+
 
