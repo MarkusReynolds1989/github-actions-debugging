@@ -48,4 +48,4 @@ jobs:
       - name: job three
         if: |
           ${{ always() }} && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
-        run: exit 0
+        run: exit 1
