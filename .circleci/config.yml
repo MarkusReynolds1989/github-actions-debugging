@@ -14,7 +14,6 @@ on:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  
   date: 
     docker:
       - image: cimg/base:stable
@@ -45,6 +44,10 @@ workflows:
   build-workflow:
     jobs:
       - date
-      - job_one
-      - job_two
+      - job_one:
+          requires: 
+            - date
+      - job_two:
+          requires: 
+            - date
 
