@@ -44,7 +44,12 @@ jobs:
     runs-on: ubuntu-20.04
     needs: [job_one, job_two]
     steps:
-      - name: job three
+      - name: job three success check
         if: |
           always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+        run: exit 0
+
+      - name: job three failure check 
+        if: | 
+          always() && contains(needs.*.result, 'failure') && contains(needs.*.result, 'failure')
         run: exit 1
