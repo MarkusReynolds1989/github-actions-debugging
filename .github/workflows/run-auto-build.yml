@@ -46,4 +46,6 @@ jobs:
     if: always()
     steps:
       - name: job three
+        if: |
+          !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
         run: exit 0
